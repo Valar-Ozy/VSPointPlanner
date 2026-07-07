@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VS Puan Planlayıcı Compact</title>
+<style>
+:root{
+  --bg:#0d1422; --panel:#172236; --panel2:#101827; --line:#2e405f;
+  --text:#eef5ff; --muted:#a8b7cf; --accent:#5aa8ff; --good:#78e08f;
+  --warn:#ffd166; --danger:#ff7675; --input:#0a1220;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Segoe UI,Arial,sans-serif}
+.container{max-width:1180px;margin:0 auto;padding:12px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.title{font-size:22px;font-weight:950}
+.sub{font-size:12px;color:var(--muted)}
+.layout{display:grid;grid-template-columns:1fr 360px;gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:0 8px 24px rgba(0,0,0,.16)}
+.top{display:grid;grid-template-columns:260px 1fr 90px 90px;gap:8px;align-items:end}
+label{display:block;font-size:12px;font-weight:850;color:var(--muted);margin-bottom:5px}
+select,input,button{width:100%;border-radius:9px;border:1px solid #405878;background:var(--input);color:var(--text);padding:9px;font-size:14px}
+button{border:0;background:var(--accent);font-weight:900;cursor:pointer}
+button.secondary{background:#2b3a54}
+button.danger{background:#58324a}
+h2,h3{margin:0 0 10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kpi{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:9px}
+.kpi .label{font-size:11px;color:var(--muted);font-weight:850}
+.kpi .value{font-size:21px;font-weight:950;margin-top:3px;white-space:nowrap}
+.good{color:var(--good)} .warn{color:var(--warn)} .dangerText{color:var(--danger)}
+.small{font-size:12px;color:var(--muted);line-height:1.45}
+.info{background:rgba(90,168,255,.08);border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:10px;font-size:12px;line-height:1.5;color:#d9e8ff}
+.resultBox{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px;line-height:1.55}
+.resultTitle{font-weight:950;margin-bottom:6px}
+.row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed #334965;padding:5px 0}
+.row:last-child{border-bottom:0}
+.actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.calcGrid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:8px;align-items:end}
+.footer{
+  margin-top:14px;padding:18px 12px;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;color:var(--muted);font-size:13px;text-align:center;line-height:1.7
+}
+.footer .brand{font-weight:900;color:var(--text);line-height:1.6}
+.footer .version{font-size:12px;color:var(--muted);margin-top:8px}
+.footer a{color:var(--accent);font-weight:800;text-decoration:none}
+.footer a:hover{text-decoration:underline}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.62);display:none;align-items:center;justify-content:center;padding:14px;z-index:10}
+.modal.show{display:flex}
+.modalBox{width:min(760px,96vw);max-height:86vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px}
+.choiceGrid{display:grid;grid-template-columns:44px 1fr 130px;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.head,.cell{padding:8px;border-bottom:1px solid var(--line)}
+.head{font-size:12px;font-weight:950;color:#d3def0;background:var(--panel2)}
+.cell input[type=checkbox]{width:auto;transform:scale(1.2)}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.top{grid-template-columns:1fr 1fr}.calcGrid{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div>
+      <div class="title">VS Puan Planlayıcı</div>
+      <div class="sub">Compact Roulette + Günlük Kalem Hesabı</div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <main>
+      <div class="card">
+        <div class="top">
+          <div>
+            <label>Gün</label>
+            <select id="day"></select>
+          </div>
+          <div>
+            <label>Toplam VS Puanı</label>
+            <input id="score" value="0" inputmode="numeric" placeholder="27,494,032">
+          </div>
+          <div>
+            <label>Arttır</label>
+            <button id="upBtn">▲ +1M</button>
+          </div>
+          <div>
+            <label>Azalt</label>
+            <button class="secondary" id="downBtn">▼ -1M</button>
+          </div>
+        </div>
+
+        <div class="info">
+          <b>ℹ️ Roulette Bilgisi</b><br>
+          🎁 <b>7.200.000 altı</b> → Sadece günlük VS sandığı hedefidir.<br>
+          🎲 <b>7.200.000 üstü</b> → Fazla puan Roulette havuzuna girer.<br>
+          🎲 Her <b>10.000.000 bonus puan</b> → 1 Roulette hakkı kazandırır. <span class="small">(Haklar hafta içinde görünür ve kullanılabilir.)</span><br>
+          📦 Roulette sonrası kalan her <b>1.000.000 bonus puan</b> → 1 adet 5 dakika rastgele hızlandırma sandığı.<br>
+          ⏱️ Pazar gece kalan bonus puanlar otomatik işlenir.
+        </div>
+      </div>
+
+
+      <div class="card" style="margin-top:12px">
+        <h3>Hesaplama Hedefi</h3>
+        <div class="grid2">
+          <label><input type="radio" name="goalMode" value="vs" checked style="width:auto"> 7.200.000 VS Sandıkları</label>
+          <label><input type="radio" name="goalMode" value="roulette" style="width:auto"> Sonraki Roulette Hakkı</label>
+        </div>
+        <div class="calcGrid" style="margin-top:8px">
+          <label><input type="radio" name="goalMode" value="custom" style="width:auto"> Belirlediğim Puan</label>
+          <input id="customGoal" inputmode="numeric" placeholder="Örn: 27,500,000">
+          <div class="kpi"><div class="label">Seçilen hedef için eksik</div><div class="value warn" id="goalNeed">7,200,000</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <h3>Seçilen Gün Kalemleriyle Tamamlama</h3>
+        <div class="small">Önce hedefi seç, sonra <b>Kalem Seç</b> butonundan hangi kalemlerle tamamlamak istediğini seç. Sonuç sadece seçtiklerine göre çıkar.</div>
+        <div class="actions">
+          <button id="openPicker">Kalem Seç</button>
+          <button class="secondary" id="selectAll">Hepsini Seç</button>
+          <button class="danger" id="clearAll">Temizle</button>
+        </div>
+        <div class="resultBox" style="margin-top:10px" id="planResult">Henüz kalem seçilmedi.</div>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <h3>Basit İki Yönlü Hesap</h3>
+        <div class="calcGrid">
+          <div>
+            <label>Kalem</label>
+            <select id="convItem">
+              <option value="speed">Hızlandırma - 1 dk = 150 puan</option>
+              <option value="food">Food / Ekmek - 100 = 50 puan</option>
+              <option value="iron">Iron / Demir - 100 = 50 puan</option>
+              <option value="coins">Coins / Altın - 60 = 50 puan</option>
+            </select>
+          </div>
+          <div>
+            <label>Miktar → Puan</label>
+            <input id="convAmount" inputmode="numeric" placeholder="Örn: 18000">
+          </div>
+          <div class="kpi">
+            <div class="label">VS Puanı</div>
+            <div class="value good" id="convPoints">0</div>
+          </div>
+        </div>
+        <div class="calcGrid" style="margin-top:8px">
+          <div>
+            <label>Puan → Miktar</label>
+            <input id="convTarget" inputmode="numeric" placeholder="Örn: 2505968">
+          </div>
+          <div class="kpi">
+            <div class="label">Gerekli Miktar</div>
+            <div class="value warn" id="convNeeded">0</div>
+          </div>
+          <div class="resultBox" id="convNote">Kalem seç ve değer gir.</div>
+        </div>
+      </div>
+    </main>
+
+    <aside>
+      <div class="card">
+        <h3>VS Özeti</h3>
+        <div class="grid2">
+          <div class="kpi"><div class="label">VS Sandık Hedefi</div><div class="value">7,200,000</div></div>
+          <div class="kpi"><div class="label">Toplam Puan</div><div class="value" id="sScore">0</div></div>
+          <div class="kpi"><div class="label">VS Sandığı İçin Kalan</div><div class="value warn" id="sDailyLeft">7,200,000</div></div>
+          <div class="kpi"><div class="label">Durum</div><div class="value good" id="sStatus">-</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <h3>Roulette</h3>
+        <div class="grid2">
+          <div class="kpi"><div class="label">Durum</div><div class="value good" id="rStatus">-</div></div>
+          <div class="kpi"><div class="label">Roulette Hakkı</div><div class="value good" id="rSpin">0</div></div>
+          <div class="kpi"><div class="label" id="rRemainLabel">Artan Puan</div><div class="value warn" id="rRemain">-</div></div>
+          <div class="kpi"><div class="label" id="rChestLabel">5m Sandık</div><div class="value good" id="rChest">-</div></div>
+          <div class="kpi"><div class="label" id="rChestLeftLabel">Sandık Sonrası</div><div class="value" id="rChestLeft">-</div></div>
+          <div class="kpi"><div class="label" id="rNextLabel">İlk Rulet İçin</div><div class="value warn" id="rNext">10,000,000</div></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="footer">
+    <div>Bu sayfa veri kaydetmez. Girdiğiniz VS puanları ve hesaplamalar yalnızca kendi cihazınızda gerçekleştirilir.</div>
+    <div class="brand">Developed by Valar Ozy<br>TRSF Alliance | Server 798</div>
+    <div class="version">Version 2.2.0 | Bu araç açık kaynaklıdır. <a href="https://github.com/Valar-Ozy/VSPointPlanner" target="_blank" rel="noopener noreferrer">GitHub üzerinde kaynak kodunu görüntüle</a></div>
+  </div>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modalBox">
+    <h3 id="pickerTitle">Kalem Seç</h3>
+    <div class="choiceGrid" id="choices"></div>
+    <div class="actions">
+      <button id="applyPicker">Uygula</button>
+      <button class="secondary" id="closePicker">Kapat</button>
+      <button class="danger" id="modalClear">Temizle</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const VS_CHEST = 7200000;
+const ROULETTE_STEP = 10000000;
+const SPEED_CHEST_STEP = 1000000;
+
+const days = {
+"Monday → Pazartesi / Radar Training": [
+["Stamina",375],["Radar Task",30000],["Hero EXP",2.5],["Drone Battle Data",7.5],["Drone Part",6250],["Diamond",30],["Food",0.5],["Iron",0.5],["Coins",50/60],["UR Hero Shard",25000],["SSR Hero Shard",8750],["SR Hero Shard",2500]
+],
+"Tuesday → Salı / Base Expansion": [
+["Construction Speed-up",150],["Building Power",30],["UR Trade Truck",300000],["UR Secret Task",225000],["Diamond",30],["Survivor Recruitment",4500],["Armament Material",2.5],["Armament Core",6250]
+],
+"Wednesday → Çarşamba / Age of Science": [
+["Research Speed-up",150],["Tech Power",30],["Valor Badge",750],["Radar Task",30000],["Diamond",30],["Drone Component Chest Lv.1",2750],["Drone Component Chest Lv.2",8250],["Drone Component Chest Lv.3",25000],["Drone Component Chest Lv.4",75000],["Drone Component Chest Lv.5",225000],["Drone Component Chest Lv.6",675000],["Drone Component Chest Lv.7",2025000]
+],
+"Thursday → Perşembe / Train Heroes": [
+["Hero Recruitment",4500],["Hero EXP",2.5],["UR Hero Shard",25000],["SSR Hero Shard",8750],["SR Hero Shard",2500],["Skill Medal",25],["Diamond",30],["Exclusive Weapon Shard",25000],["Awakening Shard",25000]
+],
+"Friday → Cuma / Total Mobilization": [
+["Radar Task",30000],["Construction Speed-up",150],["Building Power",30],["Research Speed-up",150],["Tech Power",30],["Training Speed-up",150],["Train a Unit",210],["Diamond",30],["Overlord Promotion Shard",25000],["Overlord Training Guidebooks",1562.5],["Overlord Training Certificate",3750],["Overlord Bond Badge",75000],["Overlord Skill Badge",12.5]
+],
+"Saturday → Cumartesi / Enemy Buster": [
+["UR Trade Truck",300000],["UR Secret Task",225000],["Construction Speed-up",150],["Research Speed-up",150],["Training Speed-up",150],["Healing Speed-up",150],["Rival Alliance Unit Killed",105],["Unit Killed",21],["Unit Lost",18],["Diamond",30]
+]
+};
+
+const dayEl = document.getElementById("day");
+Object.keys(days).forEach(d => dayEl.add(new Option(d,d)));
+
+let selected = {};
+Object.keys(days).forEach(day => selected[day] = {});
+
+function parseNum(v){
+  let s = String(v || "0").trim();
+  if(s.includes(",") && s.includes(".")) s = s.replaceAll(",","");
+  else if(s.includes(",")) s = s.replaceAll(",","");
+  return Number(s.replace(/[^\d.-]/g,"")) || 0;
+}
+function fmt(n){ return Math.round(n).toLocaleString("en-US"); }
+function fmtPoint(n){ return Number(n).toLocaleString("tr-TR",{maximumFractionDigits:2}); }
+function score(){ return parseNum(document.getElementById("score").value); }
+function setScore(v){ document.getElementById("score").value = fmt(Math.max(0,v)); calc(); }
+
+function roulette(score){
+  const bonus = Math.max(0, score - VS_CHEST);
+  const active = score >= VS_CHEST;
+  const spin = Math.floor(bonus / ROULETTE_STEP);
+  const last = VS_CHEST + (spin * ROULETTE_STEP);
+  const remain = bonus % ROULETTE_STEP;
+  const chest = Math.floor(remain / SPEED_CHEST_STEP);
+  const chestLeft = remain % SPEED_CHEST_STEP;
+  const next = active ? (ROULETTE_STEP - remain) : ((VS_CHEST - score) + ROULETTE_STEP);
+  return {bonus, spin, last, remain, chest, chestLeft, next, active};
+}
+
+function selectedGoalNeed(score, r){
+  const mode = document.querySelector('input[name="goalMode"]:checked')?.value || "vs";
+  if(mode === "vs") return Math.max(0, VS_CHEST - score);
+  if(mode === "roulette") return Math.max(0, r.next);
+  const custom = parseNum(document.getElementById("customGoal").value);
+  return Math.max(0, custom - score);
+}
+
+function renderChoices(){
+  const day = dayEl.value;
+  document.getElementById("pickerTitle").textContent = day + " - Kalem Seç";
+  const rows = [`<div class="head">Seç</div><div class="head">Kalem</div><div class="head">1 Birim</div>`];
+  days[day].forEach(([name,point],i)=>{
+    const on = !!selected[day][i];
+    rows.push(`<div class="cell"><input type="checkbox" data-i="${i}" ${on?"checked":""}></div><div class="cell"><b>${name}</b></div><div class="cell">${fmtPoint(point)}</div>`);
+  });
+  document.getElementById("choices").innerHTML = rows.join("");
+}
+
+function saveChoices(){
+  const day = dayEl.value;
+  document.querySelectorAll("#choices input[type=checkbox]").forEach(cb => {
+    selected[day][cb.dataset.i] = cb.checked;
+  });
+}
+
+function calcPlan(goalNeed){
+  const day = dayEl.value;
+  const chosen = days[day].map((x,i)=>({i,name:x[0],point:x[1]})).filter(x=>selected[day][x.i]);
+  if(chosen.length === 0){
+    document.getElementById("planResult").innerHTML = "Henüz kalem seçilmedi.";
+    return;
+  }
+  const lines = chosen.map(x => {
+    const qty = goalNeed > 0 ? Math.ceil(goalNeed / x.point) : 0;
+    const pts = qty * x.point;
+    return `<div class="row"><span>${x.name}</span><b>${fmt(qty)}</b></div><div class="small">Vereceği puan: ${fmt(pts)} | Aşım: ${fmt(Math.max(0, pts-goalNeed))}</div>`;
+  }).join("");
+  document.getElementById("planResult").innerHTML =
+    `<div class="resultTitle">Seçilen hedef için gereken puan: ${fmt(goalNeed)}</div>${lines}`;
+}
+
+function convRate(){
+  const item = document.getElementById("convItem").value;
+  if(item === "speed") return {rate:150, unit:"dakika", note:"1 dakika hızlandırma = 150 puan"};
+  if(item === "food") return {rate:0.5, unit:"Food / Ekmek", note:"100 Food = 50 puan"};
+  if(item === "iron") return {rate:0.5, unit:"Iron / Demir", note:"100 Iron = 50 puan"};
+  if(item === "coins") return {rate:50/60, unit:"Coins / Altın", note:"60 Coins = 50 puan"};
+}
+function calcConverter(){
+  const c = convRate();
+  const amount = parseNum(document.getElementById("convAmount").value);
+  const target = parseNum(document.getElementById("convTarget").value);
+  document.getElementById("convPoints").textContent = fmt(amount * c.rate);
+  const needed = target > 0 ? Math.ceil(target / c.rate) : 0;
+  document.getElementById("convNeeded").textContent = needed ? fmt(needed) + " " + c.unit : "0";
+  let note = c.note;
+  if(document.getElementById("convItem").value === "speed" && needed > 0){
+    const hours = Math.floor(needed / 60);
+    const days = Math.floor(hours / 24);
+    note += `<br>${fmt(needed)} dakika = ${fmt(hours)} saat<br>Yaklaşık: ${fmt(days)} gün ${hours%24} saat`;
+  }
+  document.getElementById("convNote").innerHTML = note;
+}
+
+function calc(){
+  const s = score();
+  const dailyLeft = Math.max(0, VS_CHEST - s);
+  const r = roulette(s);
+
+  document.getElementById("sScore").textContent = fmt(s);
+  document.getElementById("sDailyLeft").textContent = fmt(dailyLeft);
+  document.getElementById("sStatus").textContent = dailyLeft === 0 ? "Tamam" : "Eksik";
+
+  document.getElementById("rStatus").textContent = r.active ? "Aktif" : "VS Eksik";
+  document.getElementById("rSpin").textContent = fmt(r.spin);
+
+  if(r.active){
+    document.getElementById("rRemainLabel").textContent = "Bonus Artan";
+    document.getElementById("rChestLabel").textContent = "5m Sandık";
+    document.getElementById("rChestLeftLabel").textContent = "Sandık Sonrası";
+    document.getElementById("rNextLabel").textContent = "Sonraki Roulette İçin";
+    document.getElementById("rRemain").textContent = fmt(r.remain);
+    document.getElementById("rChest").textContent = fmt(r.chest);
+    document.getElementById("rChestLeft").textContent = fmt(r.chestLeft);
+    document.getElementById("rNext").textContent = fmt(r.next);
+  } else {
+    document.getElementById("rRemainLabel").textContent = "Bonus Artan";
+    document.getElementById("rChestLabel").textContent = "5m Sandık";
+    document.getElementById("rChestLeftLabel").textContent = "Sandık Sonrası";
+    document.getElementById("rNextLabel").textContent = "İlk Roulette İçin";
+    document.getElementById("rRemain").textContent = "-";
+    document.getElementById("rChest").textContent = "-";
+    document.getElementById("rChestLeft").textContent = "-";
+    document.getElementById("rNext").textContent = fmt(r.next);
+  }
+
+  const goalNeed = selectedGoalNeed(s, r);
+  document.getElementById("goalNeed").textContent = fmt(goalNeed);
+  calcPlan(goalNeed);
+  calcConverter();
+}
+
+document.getElementById("score").addEventListener("input", calc);
+document.getElementById("score").addEventListener("blur",()=>setScore(score()));
+document.getElementById("upBtn").addEventListener("click",()=>setScore(score()+1000000));
+document.getElementById("downBtn").addEventListener("click",()=>setScore(score()-1000000));
+dayEl.addEventListener("change",calc);
+document.querySelectorAll('input[name="goalMode"]').forEach(x=>x.addEventListener("change",calc));
+document.getElementById("customGoal").addEventListener("input",calc);
+
+document.getElementById("openPicker").addEventListener("click",()=>{renderChoices();document.getElementById("modal").classList.add("show");});
+document.getElementById("closePicker").addEventListener("click",()=>document.getElementById("modal").classList.remove("show"));
+document.getElementById("applyPicker").addEventListener("click",()=>{saveChoices();document.getElementById("modal").classList.remove("show");calc();});
+document.getElementById("modalClear").addEventListener("click",()=>{const day=dayEl.value; selected[day]={}; renderChoices(); calc();});
+document.getElementById("selectAll").addEventListener("click",()=>{const day=dayEl.value; days[day].forEach((_,i)=>selected[day][i]=true); calc();});
+document.getElementById("clearAll").addEventListener("click",()=>{selected[dayEl.value]={}; calc();});
+
+["convItem","convAmount","convTarget"].forEach(id=>{
+  document.getElementById(id).addEventListener("input", calc);
+  document.getElementById(id).addEventListener("change", calc);
+});
+
+calc();
+</script>
+</body>
+</html>

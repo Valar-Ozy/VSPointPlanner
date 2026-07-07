@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VS Puan Planlayıcı</title>
+<title>VS Puan Planlayıcı Compact</title>
 <style>
 :root{
   --bg:#0d1422; --panel:#172236; --panel2:#101827; --line:#2e405f;
@@ -12,57 +12,48 @@
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Segoe UI,Arial,sans-serif}
-.container{max-width:1450px;margin:0 auto;padding:14px}
-.header{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px}
-.title{font-size:22px;font-weight:900}
+.container{max-width:1180px;margin:0 auto;padding:12px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.title{font-size:22px;font-weight:950}
 .sub{font-size:12px;color:var(--muted)}
-.layout{display:grid;grid-template-columns:minmax(720px,1fr) 380px;gap:14px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
-.top{display:grid;grid-template-columns:280px 170px 1fr 96px 96px;gap:10px;align-items:end}
-label{display:block;font-size:12px;font-weight:800;color:var(--muted);margin-bottom:6px}
-select,input,button{width:100%;border-radius:9px;border:1px solid #405878;background:var(--input);color:var(--text);padding:10px;font-size:14px}
+.layout{display:grid;grid-template-columns:1fr 360px;gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:0 8px 24px rgba(0,0,0,.16)}
+.top{display:grid;grid-template-columns:260px 1fr 90px 90px;gap:8px;align-items:end}
+label{display:block;font-size:12px;font-weight:850;color:var(--muted);margin-bottom:5px}
+select,input,button{width:100%;border-radius:9px;border:1px solid #405878;background:var(--input);color:var(--text);padding:9px;font-size:14px}
 button{border:0;background:var(--accent);font-weight:900;cursor:pointer}
 button.secondary{background:#2b3a54}
-button.mini{padding:10px 6px}
-h2,h3{margin:2px 0 12px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{border-bottom:1px solid var(--line);padding:8px;text-align:right;vertical-align:middle}
-th:first-child,td:first-child{text-align:left}
-th{color:#d3def0;font-size:12px;background:rgba(255,255,255,.03)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.kpi{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px}
-.kpi .label{font-size:12px;color:var(--muted);font-weight:800}
-.kpi .value{font-size:22px;font-weight:950;margin-top:4px;white-space:nowrap}
-.good{color:var(--good)} .warn{color:var(--warn)} .danger{color:var(--danger)}
+button.danger{background:#58324a}
+h2,h3{margin:0 0 10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kpi{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:9px}
+.kpi .label{font-size:11px;color:var(--muted);font-weight:850}
+.kpi .value{font-size:21px;font-weight:950;margin-top:3px;white-space:nowrap}
+.good{color:var(--good)} .warn{color:var(--warn)} .dangerText{color:var(--danger)}
 .small{font-size:12px;color:var(--muted);line-height:1.45}
-.sectionTitle{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:12px 0 8px}
-.pill{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:4px 8px;color:var(--muted);background:var(--panel2)}
-.recGrid{display:grid;grid-template-columns:44px 1fr 145px 115px;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.recHead,.recCell{padding:8px;border-bottom:1px solid var(--line);background:var(--panel2)}
-.recHead{font-size:12px;font-weight:900;color:#d3def0}
-.recCell{background:transparent}
-.recGrid input[type=checkbox]{width:auto;transform:scale(1.2)}
-.resultBox{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:10px;line-height:1.55}
-.copyLine{user-select:all}
+.info{background:rgba(90,168,255,.08);border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:10px;font-size:12px;line-height:1.5;color:#d9e8ff}
+.resultBox{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px;line-height:1.55}
+.resultTitle{font-weight:950;margin-bottom:6px}
+.row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed #334965;padding:5px 0}
+.row:last-child{border-bottom:0}
+.actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.calcGrid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:8px;align-items:end}
 .footer{
-  margin-top:20px;
-  padding:22px 14px;
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:14px;
-  color:var(--muted);
-  font-size:13px;
-  text-align:center;
-  line-height:1.7;
-  box-shadow:0 8px 24px rgba(0,0,0,.18);
+  margin-top:14px;padding:18px 12px;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;color:var(--muted);font-size:13px;text-align:center;line-height:1.7
 }
-.footer .privacy{margin-bottom:10px;line-height:1.5}
 .footer .brand{font-weight:900;color:var(--text);line-height:1.6}
-.footer .version{margin-top:8px;font-size:12px;color:var(--muted)}
+.footer .version{font-size:12px;color:var(--muted);margin-top:8px}
 .footer a{color:var(--accent);font-weight:800;text-decoration:none}
 .footer a:hover{text-decoration:underline}
-@media(max-width:1050px){.layout{grid-template-columns:1fr}.top{grid-template-columns:1fr 1fr}.recGrid{grid-template-columns:36px 1fr 120px 92px}}
-@media(max-width:650px){.top{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}.recGrid{font-size:12px}}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.62);display:none;align-items:center;justify-content:center;padding:14px;z-index:10}
+.modal.show{display:flex}
+.modalBox{width:min(760px,96vw);max-height:86vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px}
+.choiceGrid{display:grid;grid-template-columns:44px 1fr 130px;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.head,.cell{padding:8px;border-bottom:1px solid var(--line)}
+.head{font-size:12px;font-weight:950;color:#d3def0;background:var(--panel2)}
+.cell input[type=checkbox]{width:auto;transform:scale(1.2)}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.top{grid-template-columns:1fr 1fr}.calcGrid{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -70,7 +61,7 @@ th{color:#d3def0;font-size:12px;background:rgba(255,255,255,.03)}
   <div class="header">
     <div>
       <div class="title">VS Puan Planlayıcı</div>
-      <div class="sub">GitHub Pages için tek dosyalık web sürümü</div>
+      <div class="sub">Compact Roulette + Günlük Kalem Hesabı</div>
     </div>
   </div>
 
@@ -83,134 +74,140 @@ th{color:#d3def0;font-size:12px;background:rgba(255,255,255,.03)}
             <select id="day"></select>
           </div>
           <div>
-            <label>Hedef Puan</label>
-            <input id="target" value="7,200,000" disabled>
-          </div>
-          <div>
-            <label>Şu Anki / Ulaşılan Puan</label>
-            <input id="current" value="0" inputmode="numeric" placeholder="27,494,032">
+            <label>Toplam VS Puanı</label>
+            <input id="score" value="0" inputmode="numeric" placeholder="27,494,032">
           </div>
           <div>
             <label>Arttır</label>
-            <button class="mini" id="upBtn">▲ +1M</button>
+            <button id="upBtn">▲ +1M</button>
           </div>
           <div>
             <label>Azalt</label>
-            <button class="mini secondary" id="downBtn">▼ -1M</button>
+            <button class="secondary" id="downBtn">▼ -1M</button>
           </div>
         </div>
-        <p class="small">Oyun formatı desteklenir: <b>27,494,032</b>. Hedef puan sabit: <b>7,200,000</b>.</p>
+
+        <div class="info">
+          <b>ℹ️ Roulette Bilgisi</b><br>
+          🎁 <b>7.200.000</b> → Günlük VS sandıkları tamamlanır.<br>
+          🎲 <b>İlk 10.000.000</b> → İlk Roulette hakkı kazanılır. <span class="small">(7.200.000 puan bu 10.000.000'un içindedir.)</span><br>
+          🎲 Sonrasında her <b>+10.000.000</b> puan → +1 Roulette hakkı.<br>
+          📦 Son tamamlanan 10.000.000 eşiğinden sonra kalan her <b>+1.000.000</b> puan → 1 adet 5 dakika rastgele hızlandırma sandığı.
+        </div>
       </div>
 
-      <div class="card" style="margin-top:14px">
-        <div class="sectionTitle">
-          <h3 id="dayTitle">Gün Kalemleri</h3>
-          <span class="pill" id="countPill">0 kalem</span>
+
+      <div class="card" style="margin-top:12px">
+        <h3>Hesaplama Hedefi</h3>
+        <div class="grid2">
+          <label><input type="radio" name="goalMode" value="vs" checked style="width:auto"> 7.200.000 VS Sandıkları</label>
+          <label><input type="radio" name="goalMode" value="roulette" style="width:auto"> Sonraki Roulette</label>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Puan Kalemi</th>
-              <th>1 Birim Puan</th>
-              <th>Gerekli Adet</th>
-              <th>Vereceği Puan</th>
-              <th>Aşım</th>
-            </tr>
-          </thead>
-          <tbody id="itemRows"></tbody>
-        </table>
+        <div class="calcGrid" style="margin-top:8px">
+          <label><input type="radio" name="goalMode" value="custom" style="width:auto"> Belirlediğim Puan</label>
+          <input id="customGoal" inputmode="numeric" placeholder="Örn: 27,500,000">
+          <div class="kpi"><div class="label">Seçilen hedef için eksik</div><div class="value warn" id="goalNeed">7,200,000</div></div>
+        </div>
       </div>
 
-      <div class="card" style="margin-top:14px">
-        <div class="sectionTitle">
-          <h3>Öneri Sistemi</h3>
-          <span class="pill" id="selectedPill">0 seçili</span>
+      <div class="card" style="margin-top:12px">
+        <h3>Seçilen Gün Kalemleriyle Tamamlama</h3>
+        <div class="small">Önce hedefi seç, sonra <b>Kalem Seç</b> butonundan hangi kalemlerle tamamlamak istediğini seç. Sonuç sadece seçtiklerine göre çıkar.</div>
+        <div class="actions">
+          <button id="openPicker">Kalem Seç</button>
+          <button class="secondary" id="selectAll">Hepsini Seç</button>
+          <button class="danger" id="clearAll">Temizle</button>
         </div>
-        <p class="small">Sadece seçilen kalemlerden öneri yapar. Tercih: “En çok kullan / Normal / Az kullan”. Maks. boşsa sınırsız kabul edilir.</p>
+        <div class="resultBox" style="margin-top:10px" id="planResult">Henüz kalem seçilmedi.</div>
+      </div>
 
-        <div class="recGrid" id="recGrid"></div>
-
-        <div class="grid2" style="margin-top:10px">
-          <button class="secondary" id="allBtn">Hepsini Seç</button>
-          <button class="secondary" id="clearBtn">Temizle</button>
+      <div class="card" style="margin-top:12px">
+        <h3>Basit İki Yönlü Hesap</h3>
+        <div class="calcGrid">
+          <div>
+            <label>Kalem</label>
+            <select id="convItem">
+              <option value="speed">Hızlandırma - 1 dk = 150 puan</option>
+              <option value="food">Food / Ekmek - 100 = 50 puan</option>
+              <option value="iron">Iron / Demir - 100 = 50 puan</option>
+              <option value="coins">Coins / Altın - 60 = 50 puan</option>
+            </select>
+          </div>
+          <div>
+            <label>Miktar → Puan</label>
+            <input id="convAmount" inputmode="numeric" placeholder="Örn: 18000">
+          </div>
+          <div class="kpi">
+            <div class="label">VS Puanı</div>
+            <div class="value good" id="convPoints">0</div>
+          </div>
         </div>
-
-        <div class="resultBox" id="recResult">Öneri için en az bir kalem seç.</div>
+        <div class="calcGrid" style="margin-top:8px">
+          <div>
+            <label>Puan → Miktar</label>
+            <input id="convTarget" inputmode="numeric" placeholder="Örn: 2505968">
+          </div>
+          <div class="kpi">
+            <div class="label">Gerekli Miktar</div>
+            <div class="value warn" id="convNeeded">0</div>
+          </div>
+          <div class="resultBox" id="convNote">Kalem seç ve değer gir.</div>
+        </div>
       </div>
     </main>
 
     <aside>
       <div class="card">
-        <h3>Özet</h3>
+        <h3>VS Özeti</h3>
         <div class="grid2">
-          <div class="kpi"><div class="label">Hedef Puan</div><div class="value" id="sTarget">7,200,000</div></div>
-          <div class="kpi"><div class="label">Ulaşılan Puan</div><div class="value" id="sCurrent">0</div></div>
-          <div class="kpi"><div class="label">Kalan Puan</div><div class="value warn" id="sRemain">7,200,000</div></div>
-          <div class="kpi"><div class="label">Tamamlanma</div><div class="value good" id="sPct">0.0%</div></div>
+          <div class="kpi"><div class="label">VS Sandık Hedefi</div><div class="value">7,200,000</div></div>
+          <div class="kpi"><div class="label">Toplam Puan</div><div class="value" id="sScore">0</div></div>
+          <div class="kpi"><div class="label">VS Sandığı İçin Kalan</div><div class="value warn" id="sDailyLeft">7,200,000</div></div>
+          <div class="kpi"><div class="label">Durum</div><div class="value good" id="sStatus">-</div></div>
         </div>
       </div>
 
-      <div class="card" style="margin-top:14px">
-        <h3>Infinite Roulette</h3>
+      <div class="card" style="margin-top:12px">
+        <h3>Roulette</h3>
         <div class="grid2">
-          <div class="kpi"><div class="label">Bugünkü 7.2M Fazlası</div><div class="value" id="rExtra">0</div></div>
-          <div class="kpi"><div class="label">Spin Hakkı</div><div class="value good" id="rSpin">0</div></div>
-          <div class="kpi"><div class="label">Spin Sonrası Artan</div><div class="value warn" id="rRemain">0</div></div>
-          <div class="kpi"><div class="label">Sonraki Spin İçin Eksik</div><div class="value" id="rNext">10,000,000</div></div>
-          <div class="kpi"><div class="label">5m Speed-up Sandığı</div><div class="value good" id="rChest">0</div></div>
-          <div class="kpi"><div class="label">Sandık Sonrası Artan</div><div class="value" id="rChestLeft">0</div></div>
-        </div>
-        <div class="resultBox" style="margin-top:10px">
-          <div class="small">Spin eşikleri günlük toplam puanda:</div>
-          <div class="copyLine" id="rThreshold">17,200,000 / 27,200,000 / 37,200,000</div>
-          <div class="small" style="margin-top:8px">Seçili kalemle sonraki spin hesabı:</div>
-          <div id="rSelectedNeed">Öneri bölümünden bir kalem seç.</div>
+          <div class="kpi"><div class="label">Durum</div><div class="value good" id="rStatus">-</div></div>
+          <div class="kpi"><div class="label">Rulet Hakkı</div><div class="value good" id="rSpin">0</div></div>
+          <div class="kpi"><div class="label" id="rRemainLabel">Artan Puan</div><div class="value warn" id="rRemain">-</div></div>
+          <div class="kpi"><div class="label" id="rChestLabel">5m Sandık</div><div class="value good" id="rChest">-</div></div>
+          <div class="kpi"><div class="label" id="rChestLeftLabel">Sandık Sonrası</div><div class="value" id="rChestLeft">-</div></div>
+          <div class="kpi"><div class="label" id="rNextLabel">İlk Rulet İçin</div><div class="value warn" id="rNext">10,000,000</div></div>
         </div>
       </div>
-
-      <div class="card" style="margin-top:14px">
-        <h3>Hedef İçin Öneri</h3>
-        <div class="grid2">
-          <div class="kpi"><div class="label">Seçilen Kalem</div><div class="value" id="oItem" style="font-size:18px">-</div></div>
-          <div class="kpi"><div class="label">1 Birim Puan</div><div class="value" id="oPoint">0</div></div>
-          <div class="kpi"><div class="label">Hedef İçin Gerekli</div><div class="value warn" id="oNeedTarget">0</div></div>
-          <div class="kpi"><div class="label">Sonraki Spin İçin</div><div class="value good" id="oNeedSpin">0</div></div>
-        </div>
-        <div class="resultBox" style="margin-top:10px" id="oDetail">
-          Öneri bölümünden tek kalem seç.
-        </div>
-      </div>
-
     </aside>
   </div>
 
-<div class="footer">
-    <div class="privacy">
-        Bu sayfa veri kaydetmez. Girdiğiniz VS puanları, hedef puan ve hesaplamalar yalnızca kendi cihazınızda gerçekleştirilir. Bilgileriniz hiçbir yere gönderilmez, saklanmaz veya paylaşılmaz.
-    </div>
+  <div class="footer">
+    <div>Bu sayfa veri kaydetmez. Girdiğiniz VS puanları ve hesaplamalar yalnızca kendi cihazınızda gerçekleştirilir.</div>
+    <div class="brand">Developed by Valar Ozy<br>TRSF Alliance | Server 798</div>
+    <div class="version">Version 2.1.0 | Bu araç açık kaynaklıdır. <a href="https://github.com/Valar-Ozy/VSPointPlanner" target="_blank" rel="noopener noreferrer">Kaynak kodunu görüntülemek için tıklayın.</a></div>
+  </div>
+</div>
 
-    <div class="brand">
-        Developed by Valar Ozy<br>
-        TRSF Alliance | Server 798
+<div class="modal" id="modal">
+  <div class="modalBox">
+    <h3 id="pickerTitle">Kalem Seç</h3>
+    <div class="choiceGrid" id="choices"></div>
+    <div class="actions">
+      <button id="applyPicker">Uygula</button>
+      <button class="secondary" id="closePicker">Kapat</button>
+      <button class="danger" id="modalClear">Temizle</button>
     </div>
-
-    <div class="version">
-        Version 1.1.1 |
-        Bu araç açık kaynaklıdır.
-        <a href="https://github.com/Valar-Ozy/VSPointPlanner"
-           target="_blank"
-           rel="noopener noreferrer">
-            Kaynak kodunu görüntülemek için tıklayın.
-        </a>
-    </div>
+  </div>
 </div>
 
 <script>
-const TARGET = 7200000;
+const VS_CHEST = 7200000;
+const ROULETTE_STEP = 10000000;
+const SPEED_CHEST_STEP = 1000000;
 
 const days = {
 "Monday → Pazartesi / Radar Training": [
-["Stamina",375],["Radar Task",30000],["Hero EXP",2.5],["Drone Battle Data",7.5],["Drone Part",6250],["Diamond",30],["Food",50],["Iron",50],["Coins",50],["UR Hero Shard",25000],["SSR Hero Shard",8750],["SR Hero Shard",2500]
+["Stamina",375],["Radar Task",30000],["Hero EXP",2.5],["Drone Battle Data",7.5],["Drone Part",6250],["Diamond",30],["Food",0.5],["Iron",0.5],["Coins",50/60],["UR Hero Shard",25000],["SSR Hero Shard",8750],["SR Hero Shard",2500]
 ],
 "Tuesday → Salı / Base Expansion": [
 ["Construction Speed-up",150],["Building Power",30],["UR Trade Truck",300000],["UR Secret Task",225000],["Diamond",30],["Survivor Recruitment",4500],["Armament Material",2.5],["Armament Core",6250]
@@ -229,213 +226,157 @@ const days = {
 ]
 };
 
-let recState = {};
-const prefs = {
-  high:{text:"En çok kullan", weight:5},
-  normal:{text:"Normal", weight:2},
-  low:{text:"Az kullan", weight:1}
-};
-
 const dayEl = document.getElementById("day");
 Object.keys(days).forEach(d => dayEl.add(new Option(d,d)));
 
+let selected = {};
+Object.keys(days).forEach(day => selected[day] = {});
+
 function parseNum(v){
-  return Number(String(v||"0").replace(/[^\d,.-]/g,"").replaceAll(",","").replaceAll(".","")) || 0;
-}
-function parseLoose(v){
-  let s = String(v||"0").trim();
+  let s = String(v || "0").trim();
   if(s.includes(",") && s.includes(".")) s = s.replaceAll(",","");
   else if(s.includes(",")) s = s.replaceAll(",","");
   return Number(s.replace(/[^\d.-]/g,"")) || 0;
 }
 function fmt(n){ return Math.round(n).toLocaleString("en-US"); }
-function fmtPoint(n){
-  return Number(n).toLocaleString("tr-TR", {maximumFractionDigits:2});
-}
-function current(){ return parseLoose(document.getElementById("current").value); }
-function setCurrent(v){ document.getElementById("current").value = fmt(Math.max(0,v)); calc(); }
+function fmtPoint(n){ return Number(n).toLocaleString("tr-TR",{maximumFractionDigits:2}); }
+function score(){ return parseNum(document.getElementById("score").value); }
+function setScore(v){ document.getElementById("score").value = fmt(Math.max(0,v)); calc(); }
 
-function ensureState(day){
-  if(!recState[day]){
-    recState[day] = {};
-    days[day].forEach((_,i)=>recState[day][i]={on:false,pref:"normal",max:""});
-  }
+function roulette(score){
+  const spin = Math.floor(score / ROULETTE_STEP);
+  const last = spin * ROULETTE_STEP;
+  const remain = score - last;
+  const active = score >= ROULETTE_STEP;
+  const chest = active ? Math.floor(remain / SPEED_CHEST_STEP) : 0;
+  const chestLeft = active ? remain % SPEED_CHEST_STEP : 0;
+  const next = active ? (ROULETTE_STEP - remain) : (ROULETTE_STEP - score);
+  return {spin,last,remain,chest,chestLeft,next,active};
 }
-function saveState(){
-  const day=dayEl.value; ensureState(day);
-  document.querySelectorAll("[data-rec]").forEach(el=>{
-    const i=el.dataset.i, f=el.dataset.f;
-    if(f==="on") recState[day][i].on = el.checked;
-    if(f==="pref") recState[day][i].pref = el.value;
-    if(f==="max") recState[day][i].max = el.value;
-  });
+
+function selectedGoalNeed(score, r){
+  const mode = document.querySelector('input[name="goalMode"]:checked')?.value || "vs";
+  if(mode === "vs") return Math.max(0, VS_CHEST - score);
+  if(mode === "roulette") return Math.max(0, r.next);
+  const custom = parseNum(document.getElementById("customGoal").value);
+  return Math.max(0, custom - score);
 }
-function renderRec(day){
-  ensureState(day);
-  const rows = [
-    `<div class="recHead">Seç</div><div class="recHead">Kalem</div><div class="recHead">Tercih</div><div class="recHead">Maks.</div>`
-  ];
+
+function renderChoices(){
+  const day = dayEl.value;
+  document.getElementById("pickerTitle").textContent = day + " - Kalem Seç";
+  const rows = [`<div class="head">Seç</div><div class="head">Kalem</div><div class="head">1 Birim</div>`];
   days[day].forEach(([name,point],i)=>{
-    const s=recState[day][i];
-    const opt = Object.entries(prefs).map(([k,v])=>`<option value="${k}" ${s.pref===k?"selected":""}>${v.text}</option>`).join("");
-    rows.push(`<div class="recCell"><input type="checkbox" data-rec data-f="on" data-i="${i}" ${s.on?"checked":""}></div>
-      <div class="recCell"><b>${name}</b><div class="small">1 birim = ${fmtPoint(point)} puan</div></div>
-      <div class="recCell"><select data-rec data-f="pref" data-i="${i}">${opt}</select></div>
-      <div class="recCell"><input data-rec data-f="max" data-i="${i}" value="${s.max||""}" placeholder="Maks."></div>`);
+    const on = !!selected[day][i];
+    rows.push(`<div class="cell"><input type="checkbox" data-i="${i}" ${on?"checked":""}></div><div class="cell"><b>${name}</b></div><div class="cell">${fmtPoint(point)}</div>`);
   });
-  document.getElementById("recGrid").innerHTML = rows.join("");
-  document.querySelectorAll("[data-rec]").forEach(el=>{
-    el.addEventListener("input",()=>{saveState(); calc();});
-    el.addEventListener("change",()=>{saveState(); calc();});
+  document.getElementById("choices").innerHTML = rows.join("");
+}
+
+function saveChoices(){
+  const day = dayEl.value;
+  document.querySelectorAll("#choices input[type=checkbox]").forEach(cb => {
+    selected[day][cb.dataset.i] = cb.checked;
   });
 }
 
-function selectedItems(){
-  const day=dayEl.value; ensureState(day); saveState();
-  return Object.entries(recState[day]).filter(([i,s])=>s.on).map(([i,s])=>{
-    const item=days[day][Number(i)];
-    const max = parseLoose(s.max);
-    return {name:item[0], point:item[1], pref:s.pref, weight:prefs[s.pref]?.weight||2, max:max>0?Math.floor(max):Infinity};
-  });
-}
-
-function calcSuggestion(remain){
-  const selected = selectedItems();
-  document.getElementById("selectedPill").textContent = selected.length + " seçili";
-  if(selected.length===0) return {html:"Öneri için en az bir kalem seç.", lines:[], total:0};
-
-  const totalWeight = selected.reduce((a,x)=>a+x.weight,0);
-  let lines=[], total=0;
-  selected.forEach(x=>{
-    const share = remain * (x.weight/totalWeight);
-    let qty = remain>0 ? Math.ceil(share/x.point) : 0;
-    if(Number.isFinite(x.max)) qty = Math.min(qty,x.max);
-    const pts = qty*x.point;
-    total += pts;
-    lines.push({...x, qty, pts});
-  });
-
-  let missing = Math.max(0, remain-total);
-  while(missing>0){
-    const candidates = lines.filter(x=>!Number.isFinite(x.max) || x.qty<x.max)
-      .sort((a,b)=>(b.weight-a.weight)||(b.point-a.point));
-    if(candidates.length===0) break;
-    const c=candidates[0];
-    const need=Math.ceil(missing/c.point);
-    const room=Number.isFinite(c.max)?Math.max(0,c.max-c.qty):need;
-    const add=Math.min(need,room);
-    if(add<=0) break;
-    c.qty += add; c.pts += add*c.point; total += add*c.point;
-    missing = Math.max(0, remain-total);
+function calcPlan(goalNeed){
+  const day = dayEl.value;
+  const chosen = days[day].map((x,i)=>({i,name:x[0],point:x[1]})).filter(x=>selected[day][x.i]);
+  if(chosen.length === 0){
+    document.getElementById("planResult").innerHTML = "Henüz kalem seçilmedi.";
+    return;
   }
+  const lines = chosen.map(x => {
+    const qty = goalNeed > 0 ? Math.ceil(goalNeed / x.point) : 0;
+    const pts = qty * x.point;
+    return `<div class="row"><span>${x.name}</span><b>${fmt(qty)}</b></div><div class="small">Vereceği puan: ${fmt(pts)} | Aşım: ${fmt(Math.max(0, pts-goalNeed))}</div>`;
+  }).join("");
+  document.getElementById("planResult").innerHTML =
+    `<div class="resultTitle">Seçilen hedef için gereken puan: ${fmt(goalNeed)}</div>${lines}`;
+}
 
-  const html = `<div><b>Kalan puan:</b> ${fmt(remain)}</div>
-    <div style="margin-top:8px"><b>Önerilen kullanım:</b></div>
-    ${lines.map(x=>`<div>• ${fmt(x.qty)} × ${x.name} <span class="small">(${prefs[x.pref].text})</span> = ${fmt(x.pts)}</div>`).join("")}
-    <div style="margin-top:8px"><b>Öneri toplamı:</b> ${fmt(total)}</div>
-    <div><b>Hedef aşımı:</b> ${fmt(Math.max(0,total-remain))}</div>
-    <div><b>Eksik kalan:</b> ${fmt(Math.max(0,remain-total))}</div>`;
-  return {html, lines, total};
+function convRate(){
+  const item = document.getElementById("convItem").value;
+  if(item === "speed") return {rate:150, unit:"dakika", note:"1 dakika hızlandırma = 150 puan"};
+  if(item === "food") return {rate:0.5, unit:"Food / Ekmek", note:"100 Food = 50 puan"};
+  if(item === "iron") return {rate:0.5, unit:"Iron / Demir", note:"100 Iron = 50 puan"};
+  if(item === "coins") return {rate:50/60, unit:"Coins / Altın", note:"60 Coins = 50 puan"};
+}
+function calcConverter(){
+  const c = convRate();
+  const amount = parseNum(document.getElementById("convAmount").value);
+  const target = parseNum(document.getElementById("convTarget").value);
+  document.getElementById("convPoints").textContent = fmt(amount * c.rate);
+  const needed = target > 0 ? Math.ceil(target / c.rate) : 0;
+  document.getElementById("convNeeded").textContent = needed ? fmt(needed) + " " + c.unit : "0";
+  let note = c.note;
+  if(document.getElementById("convItem").value === "speed" && needed > 0){
+    const hours = Math.floor(needed / 60);
+    const days = Math.floor(hours / 24);
+    note += `<br>${fmt(needed)} dakika = ${fmt(hours)} saat<br>Yaklaşık: ${fmt(days)} gün ${hours%24} saat`;
+  }
+  document.getElementById("convNote").innerHTML = note;
 }
 
 function calc(){
-  const cur = current();
-  const remain = Math.max(0, TARGET-cur);
-  const pct = Math.min(100, cur/TARGET*100);
+  const s = score();
+  const dailyLeft = Math.max(0, VS_CHEST - s);
+  const r = roulette(s);
 
-  document.getElementById("sTarget").textContent = fmt(TARGET);
-  document.getElementById("sCurrent").textContent = fmt(cur);
-  document.getElementById("sRemain").textContent = fmt(remain);
-  document.getElementById("sPct").textContent = pct.toFixed(1)+"%";
+  document.getElementById("sScore").textContent = fmt(s);
+  document.getElementById("sDailyLeft").textContent = fmt(dailyLeft);
+  document.getElementById("sStatus").textContent = dailyLeft === 0 ? "Tamam" : "Eksik";
 
-  const extra = Math.max(0, cur-TARGET);
-  const spin = Math.floor(extra/10000000);
-  const spinRemain = extra%10000000;
-  const next = 10000000-spinRemain;
-  const chest = Math.floor(spinRemain/1000000);
-  const chestLeft = spinRemain%1000000;
+  document.getElementById("rStatus").textContent = r.active ? "Aktif" : "Pasif";
+  document.getElementById("rSpin").textContent = fmt(r.spin);
 
-  document.getElementById("rExtra").textContent = fmt(extra);
-  document.getElementById("rSpin").textContent = fmt(spin);
-  document.getElementById("rRemain").textContent = fmt(spinRemain);
-  document.getElementById("rNext").textContent = fmt(next);
-  document.getElementById("rChest").textContent = fmt(chest);
-  document.getElementById("rChestLeft").textContent = fmt(chestLeft);
-  document.getElementById("rThreshold").textContent = `${fmt(TARGET+10000000)} / ${fmt(TARGET+20000000)} / ${fmt(TARGET+30000000)}`;
-
-  const day = dayEl.value;
-  const items = days[day];
-  document.getElementById("dayTitle").textContent = day;
-  document.getElementById("countPill").textContent = items.length + " kalem";
-  document.getElementById("itemRows").innerHTML = items.map(([name,point])=>{
-    const qty = remain>0 ? Math.ceil(remain/point) : 0;
-    const pts = qty*point;
-    return `<tr><td><b>${name}</b></td><td>${fmtPoint(point)}</td><td>${fmt(qty)}</td><td>${fmt(pts)}</td><td>${fmt(Math.max(0,pts-remain))}</td></tr>`;
-  }).join("");
-
-  const sug = calcSuggestion(remain);
-  document.getElementById("recResult").innerHTML = sug.html;
-
-  const selected = selectedItems();
-  if(selected.length === 1){
-    const x = selected[0];
-    const qSpin = Math.ceil(next / x.point);
-    const qTarget = Math.ceil(remain / x.point);
-    const targetPts = qTarget * x.point;
-    const spinPts = qSpin * x.point;
-
-    document.getElementById("rSelectedNeed").innerHTML = `<b>${x.name}</b> ile sonraki spin için <b>${fmt(qSpin)}</b> adet gerekir.`;
-
-    if(document.getElementById("oItem")){
-      document.getElementById("oItem").textContent = x.name;
-      document.getElementById("oPoint").textContent = fmtPoint(x.point);
-      document.getElementById("oNeedTarget").textContent = fmt(qTarget);
-      document.getElementById("oNeedSpin").textContent = fmt(qSpin);
-      document.getElementById("oDetail").innerHTML =
-        `<b>${x.name}</b><br>` +
-        `Hedefe kalan <b>${fmt(remain)}</b> puan için <b>${fmt(qTarget)}</b> adet gerekir.<br>` +
-        `Vereceği puan: <b>${fmt(targetPts)}</b><br>` +
-        `Hedef aşımı: <b>${fmt(Math.max(0,targetPts-remain))}</b><br><br>` +
-        `Bir sonraki spin için <b>${fmt(next)}</b> puan eksik. Sadece bu kalemle <b>${fmt(qSpin)}</b> adet gerekir.`;
-    }
-  } else if(selected.length > 1){
-    document.getElementById("rSelectedNeed").innerHTML = `Tek kalem hesabı için öneride sadece 1 kalem seç.`;
-    if(document.getElementById("oItem")){
-      document.getElementById("oItem").textContent = "Çoklu seçim";
-      document.getElementById("oPoint").textContent = "-";
-      document.getElementById("oNeedTarget").textContent = "-";
-      document.getElementById("oNeedSpin").textContent = "-";
-      document.getElementById("oDetail").innerHTML = `Tek kalem detay hesabı için öneride sadece 1 kalem seç. Çoklu öneri sonucu aşağıdaki öneri kutusunda gösterilir.`;
-    }
+  if(r.active){
+    document.getElementById("rRemainLabel").textContent = "Artan Puan";
+    document.getElementById("rChestLabel").textContent = "5m Sandık";
+    document.getElementById("rChestLeftLabel").textContent = "Sandık Sonrası";
+    document.getElementById("rNextLabel").textContent = "Sonraki Rulet İçin";
+    document.getElementById("rRemain").textContent = fmt(r.remain);
+    document.getElementById("rChest").textContent = fmt(r.chest);
+    document.getElementById("rChestLeft").textContent = fmt(r.chestLeft);
+    document.getElementById("rNext").textContent = fmt(r.next);
   } else {
-    document.getElementById("rSelectedNeed").innerHTML = `Öneri bölümünden bir kalem seç.`;
-    if(document.getElementById("oItem")){
-      document.getElementById("oItem").textContent = "-";
-      document.getElementById("oPoint").textContent = "0";
-      document.getElementById("oNeedTarget").textContent = "0";
-      document.getElementById("oNeedSpin").textContent = "0";
-      document.getElementById("oDetail").innerHTML = `Öneri bölümünden tek kalem seç.`;
-    }
+    document.getElementById("rRemainLabel").textContent = "Artan Puan";
+    document.getElementById("rChestLabel").textContent = "5m Sandık";
+    document.getElementById("rChestLeftLabel").textContent = "Sandık Sonrası";
+    document.getElementById("rNextLabel").textContent = "İlk Rulet İçin";
+    document.getElementById("rRemain").textContent = "-";
+    document.getElementById("rChest").textContent = "-";
+    document.getElementById("rChestLeft").textContent = "-";
+    document.getElementById("rNext").textContent = fmt(r.next);
   }
+
+  const goalNeed = selectedGoalNeed(s, r);
+  document.getElementById("goalNeed").textContent = fmt(goalNeed);
+  calcPlan(goalNeed);
+  calcConverter();
 }
 
-dayEl.addEventListener("change",()=>{renderRec(dayEl.value); calc();});
-document.getElementById("current").addEventListener("input", calc);
-document.getElementById("current").addEventListener("blur",()=>setCurrent(current()));
-document.getElementById("upBtn").addEventListener("click",()=>setCurrent(current()+1000000));
-document.getElementById("downBtn").addEventListener("click",()=>setCurrent(current()-1000000));
-document.getElementById("allBtn").addEventListener("click",()=>{
-  const day=dayEl.value; ensureState(day);
-  Object.keys(recState[day]).forEach(i=>recState[day][i].on=true);
-  renderRec(day); calc();
-});
-document.getElementById("clearBtn").addEventListener("click",()=>{
-  const day=dayEl.value; ensureState(day);
-  Object.keys(recState[day]).forEach(i=>recState[day][i]={on:false,pref:"normal",max:""});
-  renderRec(day); calc();
+document.getElementById("score").addEventListener("input", calc);
+document.getElementById("score").addEventListener("blur",()=>setScore(score()));
+document.getElementById("upBtn").addEventListener("click",()=>setScore(score()+1000000));
+document.getElementById("downBtn").addEventListener("click",()=>setScore(score()-1000000));
+dayEl.addEventListener("change",calc);
+document.querySelectorAll('input[name="goalMode"]').forEach(x=>x.addEventListener("change",calc));
+document.getElementById("customGoal").addEventListener("input",calc);
+
+document.getElementById("openPicker").addEventListener("click",()=>{renderChoices();document.getElementById("modal").classList.add("show");});
+document.getElementById("closePicker").addEventListener("click",()=>document.getElementById("modal").classList.remove("show"));
+document.getElementById("applyPicker").addEventListener("click",()=>{saveChoices();document.getElementById("modal").classList.remove("show");calc();});
+document.getElementById("modalClear").addEventListener("click",()=>{const day=dayEl.value; selected[day]={}; renderChoices(); calc();});
+document.getElementById("selectAll").addEventListener("click",()=>{const day=dayEl.value; days[day].forEach((_,i)=>selected[day][i]=true); calc();});
+document.getElementById("clearAll").addEventListener("click",()=>{selected[dayEl.value]={}; calc();});
+
+["convItem","convAmount","convTarget"].forEach(id=>{
+  document.getElementById(id).addEventListener("input", calc);
+  document.getElementById(id).addEventListener("change", calc);
 });
 
-renderRec(dayEl.value);
 calc();
 </script>
 </body>
